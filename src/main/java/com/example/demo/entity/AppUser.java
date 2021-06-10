@@ -18,36 +18,35 @@ import java.util.Collections;
 @NoArgsConstructor
 @Entity
 public class AppUser implements UserDetails{
-    @Id
+
     @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
+            name = "sequence_name",
+            sequenceName = "sequence_name",
             allocationSize = 1
-    )
+    )@Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            generator = "sequence_name"
     )
     private Long id;
-    private String name;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
-    private boolean locked;
-    private boolean enabled;
+    private Boolean locked;
+    private Boolean enabled;
 
-    public AppUser(String name,
-                   String username,
+    public AppUser(String firstName,
+                   String lastName,
                    String email,
                    String password,
                    AppUserRole appUserRole,
-                   boolean locked,
-                   boolean enabled) {
-        this.name = name;
-        this.username = username;
+                   Boolean locked,
+                   Boolean enabled) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.appUserRole = appUserRole;
@@ -68,26 +67,33 @@ public class AppUser implements UserDetails{
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
+    }
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return false;
     }
 }
